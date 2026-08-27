@@ -3,6 +3,7 @@ const template = document.querySelector('#card-template');
 const progressText = document.querySelector('#progress-text');
 const progressBar = document.querySelector('#progress-bar');
 const celebration = document.querySelector('#celebration');
+const spotifyFrame = document.querySelector('.spotify-player iframe');
 
 async function loadMessages() {
   try {
@@ -48,6 +49,12 @@ function renderCards(messages) {
       document.querySelector('.hero').classList.add('is-hidden');
       celebration.classList.add('is-visible');
       celebration.setAttribute('aria-hidden', 'false');
+      // Recarga el embed al llegar a la celebración para solicitar autoplay.
+      if (spotifyFrame) {
+        const spotifyUrl = new URL(spotifyFrame.src);
+        spotifyUrl.searchParams.set('autoplay', '1');
+        spotifyFrame.src = spotifyUrl.toString();
+      }
       celebration.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 500);
   }
