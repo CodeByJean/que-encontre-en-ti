@@ -54,3 +54,28 @@ function renderCards(messages) {
 }
 
 loadMessages();
+
+// Crea un rastro de corazones al mover el puntero o deslizar el dedo.
+const heartTrail = document.querySelector('#heart-trail');
+let lastHeartTime = 0;
+
+function createTrailHeart(x, y) {
+  const now = Date.now();
+  if (now - lastHeartTime < 70) return;
+  lastHeartTime = now;
+
+  const heart = document.createElement('span');
+  heart.className = 'trail-heart';
+  heart.textContent = Math.random() > 0.35 ? '♥' : '♡';
+  heart.style.left = `${x}px`;
+  heart.style.top = `${y}px`;
+  heart.style.setProperty('--drift', `${Math.round(Math.random() * 50 - 25)}px`);
+  heartTrail.append(heart);
+  heart.addEventListener('animationend', () => heart.remove(), { once: true });
+}
+
+document.addEventListener('pointermove', (event) => {
+  if (event.pointerType === 'mouse' || event.pointerType === 'touch') {
+    createTrailHeart(event.clientX, event.clientY);
+  }
+});
