@@ -58,11 +58,18 @@ loadMessages();
 // Crea un rastro de corazones al mover el puntero o deslizar el dedo.
 const heartTrail = document.querySelector('#heart-trail');
 let lastHeartTime = 0;
+let pendingPoint = null;
+let animationFrame = null;
+const maxTrailHearts = 24;
 
 function createTrailHeart(x, y) {
-  const now = Date.now();
-  if (now - lastHeartTime < 70) return;
+  const now = performance.now();
+  if (now - lastHeartTime < 90) return;
   lastHeartTime = now;
+
+  while (heartTrail.childElementCount >= maxTrailHearts) {
+    heartTrail.firstElementChild.remove();
+  }
 
   const heart = document.createElement('span');
   heart.className = 'trail-heart';
@@ -75,9 +82,15 @@ function createTrailHeart(x, y) {
 }
 
 document.addEventListener('pointermove', (event) => {
-  if (event.pointerType === 'mouse' || event.pointerType === 'touch') {
-    createTrailHeart(event.clientX, event.clientY);
-  }
+  if (event.pointerType !== 'mouse' && event.pointerType !== 'touch') return;
+  pendingPoint = { x: event.clientX, y: event.clientY };
+  if (animationFrame) return;
+
+  animationFrame = requestAnimationFrame(() => {
+    if (pendingPoint) createTrailHeart(pendingPoint.x, pendingPoint.y);
+    pendingPoint = null;
+    animationFrame = null;
+  });
 });
 
 // Evita que el navegador intente seleccionar o arrastrar contenido durante el gesto.
