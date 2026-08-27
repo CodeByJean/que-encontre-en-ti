@@ -67,8 +67,8 @@ h1 { margin: 0; font-family: 'Playfair Display', serif; font-size: clamp(2.35rem
 .celebration.is-visible { display: flex; animation: fade-in .8s ease both; }
 .cards-grid.is-complete { display: none; }
 /* El corazón crece desde pequeño hasta un tamaño protagonista. */
-.heart { --heart-size: clamp(130px, 25vw, 190px); position: relative; width: var(--heart-size); height: var(--heart-size); margin: clamp(48px, 8vw, 70px) 0 clamp(20px, 4vw, 32px); transform: rotate(-45deg) scale(.2); border-radius: clamp(16px, 2.5vw, 24px); background: var(--rose); box-shadow: 0 25px 70px rgba(169,72,96,.3); animation: heart-grow 1.5s cubic-bezier(.2,.8,.2,1) forwards, heart-pulse 1.25s 1.5s ease-in-out infinite; }
-.heart::before, .heart::after { position: absolute; width: var(--heart-size); height: var(--heart-size); border-radius: 50%; background: inherit; content: ''; }
+.heart { --heart-size: clamp(130px, 25vw, 190px); position: relative; width: var(--heart-size); height: var(--heart-size); margin: clamp(48px, 8vw, 70px) 0 clamp(20px, 4vw, 32px); transform: rotate(-45deg) scale(.2); border-radius: 0; background: var(--rose); filter: drop-shadow(0 25px 35px rgba(169,72,96,.28)); animation: heart-grow 1.5s cubic-bezier(.2,.8,.2,1) forwards, heart-pulse 1.25s 1.5s ease-in-out infinite; }
+.heart::before, .heart::after { position: absolute; width: var(--heart-size); height: var(--heart-size); border-radius: 50%; background: var(--rose); content: ''; }
 .heart::before { top: calc(var(--heart-size) / -2); left: 0; }
 .heart::after { top: 0; left: calc(var(--heart-size) / 2); }
 .final-message { position: absolute; right: 16px; bottom: clamp(62px, 9vh, 88px); left: 16px; margin: 0; color: var(--rose-dark); font-family: 'Caveat', cursive; font-size: clamp(2rem, 6vw, 3.4rem); font-weight: 700; line-height: 1.05; text-align: center; animation: message-in .8s 1.35s ease both; }
