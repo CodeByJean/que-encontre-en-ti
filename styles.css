@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+  --cream: #fff7f8;
+  --white: #ffffff;
+  --ink: #4c2630;
+  --muted: #9b737d;
+  --rose: #d86f82;
+  --rose-dark: #a94860;
+  --blush: #f8dfe4;
+  --line: #f0cdd4;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+  margin: 0;
+  color: var(--ink);
+  background: radial-gradient(circle at 50% -10%, #fff, var(--cream) 48%);
+  font-family: 'DM Sans', sans-serif;
+}
+
+#heart-trail { position: fixed; inset: 0; z-index: 10; pointer-events: none; overflow: hidden; }
+.trail-heart { position: absolute; color: var(--rose); font-size: clamp(12px, 2vw, 20px); opacity: 0; animation: trail-fall 1.1s ease-out forwards; filter: drop-shadow(0 3px 5px rgba(169,72,96,.15)); }
+@keyframes trail-fall { 0% { opacity: .85; transform: translate(-50%, -50%) scale(.6) rotate(0deg); } 20% { opacity: .9; } 100% { opacity: 0; transform: translate(calc(-50% + var(--drift)), 80px) scale(1.15) rotate(25deg); } }
+.page-shell { width: min(1080px, calc(100% - clamp(28px, 7vw, 80px))); margin: 0 auto; padding: clamp(36px, 8vw, 80px) 0; }
+.hero { max-width: 650px; margin: 0 auto clamp(34px, 6vw, 56px); text-align: center; transition: opacity .35s ease; }
+.hero.is-hidden { display: none; }
+.eyebrow { margin: 0 0 14px; color: var(--rose-dark); font-size: clamp(.65rem, 1.5vw, .75rem); font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+h1 { margin: 0; font-family: 'Playfair Display', serif; font-size: clamp(2.35rem, 8vw, 4.8rem); line-height: 1.05; font-weight: 700; }
+.intro { max-width: 540px; margin: clamp(14px, 3vw, 18px) auto clamp(24px, 5vw, 32px); color: var(--muted); font-size: clamp(.9rem, 2vw, 1rem); line-height: 1.6; }
+.progress { margin: auto; width: min(300px, 100%); color: var(--muted); font-size: clamp(.72rem, 1.8vw, .8rem); }
+.progress-track { height: 5px; margin-top: 10px; overflow: hidden; border-radius: 99px; background: var(--blush); }
+#progress-bar { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--rose); transition: width .5s ease; }
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: clamp(10px, 2vw, 18px); padding-bottom: 24px; overflow: visible; }
+.reason-card { width: 100%; min-width: 0; position: relative; min-height: clamp(165px, 20vw, 210px); padding: clamp(18px, 3vw, 28px) clamp(16px, 2.5vw, 24px); overflow: hidden; border: 1px solid var(--line); border-radius: 18px; color: var(--ink); background: rgba(255,255,255,.78); box-shadow: 0 8px 25px rgba(145, 71, 87, .06); cursor: pointer; text-align: left; transition: transform .25s ease, box-shadow .25s ease, background .25s ease; }
+.reason-card:hover, .reason-card:focus-visible { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(145, 71, 87, .13); outline: none; }
+.reason-card:focus-visible { box-shadow: 0 0 0 3px var(--blush), 0 15px 30px rgba(145, 71, 87, .13); }
+.card-number { display: block; margin-bottom: 35px; color: var(--rose); font-family: 'Playfair Display', serif; font-size: 1.5rem; }
+.card-front { color: var(--muted); font-size: .9rem; }
+.arrow { float: right; color: var(--rose); font-size: 1.2rem; }
+.card-back { display: none; font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1.35; }
+.reason-card.is-open { background: var(--rose); border-color: var(--rose); color: var(--white); cursor: default; }
+.reason-card.is-open .card-number, .reason-card.is-open .arrow { color: var(--white); }
+.reason-card.is-open .card-front { display: none; }
+.reason-card.is-open .card-back { display: block; animation: reveal .45s ease both; }
+.cards-grid.is-complete { pointer-events: none; }
+.cards-grid.is-complete .reason-card { animation: gather .55s ease-in forwards; }
+.cards-grid.is-complete .reason-card:nth-child(odd) { transform: translate(35%, 35%) scale(.35) rotate(12deg); }
+.cards-grid.is-complete .reason-card:nth-child(even) { transform: translate(-35%, 35%) scale(.35) rotate(-12deg); }
+@keyframes gather { from { opacity: 1; } to { opacity: 0; } }
+@keyframes reveal { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.celebration { position: relative; display: none; min-height: max(680px, 100vh); align-items: center; flex-direction: column; justify-content: center; padding-bottom: clamp(120px, 18vh, 170px); text-align: center; }
+.photo-collage { position: relative; width: min(420px, 88vw); height: clamp(120px, 24vw, 170px); margin-bottom: clamp(18px, 4vw, 32px); }
+.photo-placeholder { position: absolute; display: block; width: clamp(100px, 22vw, 145px); height: clamp(100px, 22vw, 145px); overflow: hidden; border: 6px solid var(--white); border-radius: 12px; background-color: var(--blush); background-repeat: no-repeat; background-size: cover; box-shadow: 0 10px 25px rgba(145, 71, 87, .16); }
+.photo-one { top: 8px; left: 2%; background-image: url('images/IMG_4432.jpg'); background-position: center 32%; transform: rotate(-9deg); }
+.photo-two { top: 0; right: 2%; background-image: url('images/IMG_5333.jpg'); background-position: center 20%; transform: rotate(9deg); }
+.photo-three { top: 24px; left: 50%; background-image: url('images/IMG_5027.jpg'); background-position: center center; transform: translateX(-50%) rotate(2deg); z-index: 1; }
+.celebration.is-visible { display: flex; animation: fade-in .8s ease both; }
+.cards-grid.is-complete { display: none; }
+/* El corazón crece desde pequeño hasta un tamaño protagonista. */
+.heart { --heart-size: clamp(130px, 25vw, 190px); position: relative; width: var(--heart-size); height: var(--heart-size); margin: clamp(48px, 8vw, 70px) 0 clamp(20px, 4vw, 32px); transform: rotate(-45deg) scale(.2); border-radius: clamp(16px, 2.5vw, 24px); background: var(--rose); box-shadow: 0 25px 70px rgba(169,72,96,.3); animation: heart-grow 1.5s cubic-bezier(.2,.8,.2,1) forwards, heart-pulse 1.25s 1.5s ease-in-out infinite; }
+.heart::before, .heart::after { position: absolute; width: var(--heart-size); height: var(--heart-size); border-radius: 50%; background: inherit; content: ''; }
+.heart::before { top: calc(var(--heart-size) / -2); left: 0; }
+.heart::after { top: 0; left: calc(var(--heart-size) / 2); }
+.final-message { position: absolute; right: 16px; bottom: clamp(62px, 9vh, 88px); left: 16px; margin: 0; color: var(--rose-dark); font-family: 'Caveat', cursive; font-size: clamp(2rem, 6vw, 3.4rem); font-weight: 700; line-height: 1.05; text-align: center; animation: message-in .8s 1.35s ease both; }
+.celebration-caption { position: absolute; right: 16px; bottom: clamp(28px, 4vh, 42px); left: 16px; margin: 0; color: var(--muted); font-size: .95rem; }
+@keyframes heart-grow { 0% { transform: rotate(-45deg) scale(.2); } 70% { transform: rotate(-45deg) scale(1.08); } 100% { transform: rotate(-45deg) scale(1); } }
+@keyframes heart-pulse { 0%, 100% { transform: rotate(-45deg) scale(1); } 50% { transform: rotate(-45deg) scale(1.07); } }
+@keyframes message-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 600px) {
+  .page-shell { padding-bottom: 56px; }
+  .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-bottom: 36px; }
+  .card-number { margin-bottom: 24px; }
+  .celebration { min-height: 100vh; padding-bottom: 150px; overflow: hidden; }
+  .heart { --heart-size: clamp(115px, 40vw, 150px); }
+}
+@media (max-width: 360px) {
+  .page-shell { width: calc(100% - 24px); }
+  .cards-grid { grid-template-columns: 1fr; }
+  .reason-card { min-height: 145px; }
+  .card-number { margin-bottom: 18px; }
+  .celebration { min-height: 430px; }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  .cards-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
