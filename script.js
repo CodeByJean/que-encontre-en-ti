@@ -79,3 +79,7 @@ document.addEventListener('pointermove', (event) => {
     createTrailHeart(event.clientX, event.clientY);
   }
 });
+
+// Evita que el navegador intente seleccionar o arrastrar contenido durante el gesto.
+document.addEventListener('selectstart', (event) => event.preventDefault());
+document.addEventListener('dragstart', (event) => event.preventDefault());
