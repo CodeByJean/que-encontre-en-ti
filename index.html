@@ -3,53 +3,94 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#fff7f8" />
-    <title>Razones para amarte</title>
+    <meta name="theme-color" content="#111312" />
+    <meta name="description" content="Una exploración personal de nuestros primeros dos meses." />
+    <title>¿Qué encontré en ti?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="noise" aria-hidden="true"></div>
+    <div id="heart-rain" aria-hidden="true"></div>
     <div id="heart-trail" aria-hidden="true"></div>
-    <main class="page-shell">
+    <main class="app-shell">
+      <nav class="topbar" aria-label="Estado del proyecto">
+        <span class="brand-mark">/mi-mundo</span>
+        <span class="project-status"><i></i> proyecto en curso</span>
+      </nav>
+
       <header class="hero">
-        <p class="eyebrow">Una pequeña colección de motivos</p>
-        <h1>Razones para amarte</h1>
-        <p class="intro">Abre cada tarjeta y descubre algo que hace especial nuestro amor.</p>
-        <div class="progress" aria-live="polite">
-          <span id="progress-text">0 de 0 tarjetas abiertas</span>
-          <div class="progress-track" aria-hidden="true">
-            <span id="progress-bar"></span>
-          </div>
+        <p class="eyebrow"><span>01</span> investigación personal / para Guisselle</p>
+        <h1>¿Qué encontré<br /><em>en ti?</em></h1>
+        <p class="hero-copy">He estado explorando esta pregunta desde que apareciste en una pantalla y terminaste formando parte de mi mundo, Amor. Estos son algunos de los descubrimientos registrados desde que comenzamos a escribir esto como nosotros.</p>
+        <div class="project-meta" aria-label="Información del proyecto">
+          <div><span>proyecto</span><strong>nosotros</strong></div>
+          <div><span>inicio</span><strong>07.07.2026</strong></div>
+          <div><span>canción</span><strong>Tanto creo en ti</strong></div>
         </div>
       </header>
 
-      <section id="cards" class="cards-grid" aria-label="Razones para amarte"></section>
+      <section class="exploration" aria-labelledby="records-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">/ registros encontrados</p>
+            <h2 id="records-title">Pequeñas cosas,<br /><span>grandes hallazgos.</span></h2>
+          </div>
+          <div class="progress" aria-live="polite">
+            <strong id="progress-text">0 / 0</strong>
+            <span>descubiertos</span>
+          </div>
+        </div>
+        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+        <div id="cards" class="records-grid" aria-label="Descubrimientos sobre nosotros"></div>
+        <div id="next-step" class="next-step" hidden>
+          <p>Todos los hallazgos están registrados.</p>
+          <button id="next-step-button" type="button">
+            <span>Ejecutar siguiente descubrimiento</span>
+            <strong aria-hidden="true">↓</strong>
+          </button>
+        </div>
+      </section>
 
       <section id="celebration" class="celebration" aria-live="polite" aria-hidden="true">
+        <p class="section-label">/ resultado de la exploración</p>
         <div class="photo-collage" aria-hidden="true">
-          <div class="photo-placeholder photo-one" role="img" aria-label="Un recuerdo juntos"></div>
-          <div class="photo-placeholder photo-two" role="img" aria-label="Otro recuerdo juntos"></div>
-          <div class="photo-placeholder photo-three" role="img" aria-label="Un recuerdo especial juntos"></div>
+          <div class="photo-placeholder photo-one"></div>
+          <div class="photo-placeholder photo-two"></div>
+          <div class="photo-placeholder photo-three"></div>
         </div>
-        <div class="heart" role="img" aria-label="Un corazón"></div>
-        <div class="spotify-player">
+        <p class="final-message">Encontré un lugar<br /><em>donde quiero seguir.</em></p>
+        <p class="final-copy">Felices 2 meses, Amor. Estos dos meses han sido increíbles. Me hace feliz crecer contigo y saber que estás a mi lado. No imagino mi futuro sin ti dentro de él. Y si esto apenas es la primera versión, quiero descubrir contigo todas las que vienen.</p>
+        <div class="project-footer">
+          <span>felices 2 meses, Amor</span>
+          <span>v2.0 <i></i> sin bugs conocidos</span>
+        </div>
+        <div class="spotify-player" aria-label="Canción especial">
           <iframe
-            src="https://open.spotify.com/embed/track/4rzqsW1SsHF78cQNmwsBAe?utm_source=generator&theme=0&autoplay=1"
+            data-src="https://open.spotify.com/embed/track/4rzqsW1SsHF78cQNmwsBAe?utm_source=generator&theme=0&autoplay=1"
             title="Canción especial en Spotify"
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="eager"
+            loading="lazy"
           ></iframe>
         </div>
-        <p id="final-message" class="final-message">Feliz 2 meses, mi amor</p>
-        <p class="celebration-caption">Gracias por hacer mis días más bonitos.</p>
       </section>
     </main>
 
     <template id="card-template">
-      <button class="reason-card" type="button">
-        <span class="card-number" aria-hidden="true"></span>
-        <span class="card-front">Haz clic para descubrirlo <span class="arrow">↗</span></span>
-        <span class="card-back"></span>
-      </button>
+      <article class="record-card">
+        <button class="record-trigger" type="button" aria-expanded="false">
+          <span class="record-index"></span>
+          <span class="record-type"></span>
+          <span class="record-title"></span>
+          <span class="record-open" aria-hidden="true">+</span>
+        </button>
+        <div class="record-detail">
+          <p class="record-message"></p>
+          <span class="record-note"></span>
+        </div>
+      </article>
     </template>
 
     <script src="script.js" defer></script>

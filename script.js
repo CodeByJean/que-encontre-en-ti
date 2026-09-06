@@ -4,79 +4,103 @@ const progressText = document.querySelector('#progress-text');
 const progressBar = document.querySelector('#progress-bar');
 const celebration = document.querySelector('#celebration');
 const spotifyFrame = document.querySelector('.spotify-player iframe');
+const nextStep = document.querySelector('#next-step');
+const nextStepButton = document.querySelector('#next-step-button');
 
-async function loadMessages() {
+async function loadDiscoveries() {
   try {
     const response = await fetch('messages.json');
     if (!response.ok) throw new Error(`No se pudo cargar messages.json (${response.status})`);
-    const messages = await response.json();
-    if (!Array.isArray(messages) || messages.length === 0) throw new Error('messages.json no contiene mensajes.');
-    renderCards(messages);
+    const discoveries = await response.json();
+    if (!Array.isArray(discoveries) || discoveries.length === 0) throw new Error('No hay descubrimientos registrados.');
+    renderDiscoveries(discoveries);
   } catch (error) {
-    cardsContainer.innerHTML = '<p class="load-error">No pudimos cargar las razones. Comprueba que la página se esté ejecutando desde un servidor local.</p>';
+    cardsContainer.innerHTML = '<p class="record-message">La exploración no pudo iniciarse. Intenta abrir el proyecto desde un servidor local.</p>';
     console.error(error);
   }
 }
 
-function renderCards(messages) {
-  let openedCards = 0;
-  const totalCards = messages.length;
+function renderDiscoveries(discoveries) {
+  let opened = 0;
+  const total = discoveries.length;
+  progressText.textContent = `0 / ${total}`;
 
-  progressText.textContent = `0 de ${totalCards} tarjetas abiertas`;
-  messages.forEach((item, index) => {
-    const card = template.content.cloneNode(true).querySelector('.reason-card');
-    card.querySelector('.card-number').textContent = String(index + 1).padStart(2, '0');
-    card.querySelector('.card-back').textContent = item.message ?? item;
-    card.setAttribute('aria-label', `Abrir razón ${index + 1}`);
+  discoveries.forEach((discovery, index) => {
+    const card = template.content.cloneNode(true).querySelector('.record-card');
+    const trigger = card.querySelector('.record-trigger');
+    card.querySelector('.record-index').textContent = `0${index + 1}`;
+    card.querySelector('.record-type').textContent = discovery.type;
+    card.querySelector('.record-title').textContent = discovery.title;
+    card.querySelector('.record-message').textContent = discovery.message;
+    card.querySelector('.record-note').textContent = discovery.note;
+    trigger.setAttribute('aria-label', `Abrir ${discovery.title}`);
 
-    card.addEventListener('click', () => {
+    trigger.addEventListener('click', () => {
       if (card.classList.contains('is-open')) return;
       card.classList.add('is-open');
-      card.setAttribute('aria-label', `Razón ${index + 1}: ${item.message ?? item}`);
-      openedCards += 1;
-      progressText.textContent = `${openedCards} de ${totalCards} tarjetas abiertas`;
-      progressBar.style.width = `${(openedCards / totalCards) * 100}%`;
+      trigger.setAttribute('aria-expanded', 'true');
+      trigger.setAttribute('aria-label', `Cerrado: ${discovery.title}`);
+      opened += 1;
+      progressText.textContent = `${opened} / ${total}`;
+      progressBar.style.width = `${(opened / total) * 100}%`;
 
-      if (openedCards === totalCards) showCelebration();
+      if (opened === total) unlockResult();
     });
     cardsContainer.append(card);
   });
 
-  function showCelebration() {
-    setTimeout(() => {
-      cardsContainer.setAttribute('aria-hidden', 'true');
-      cardsContainer.classList.add('is-complete');
-      document.querySelector('.hero').classList.add('is-hidden');
-      celebration.classList.add('is-visible');
-      celebration.setAttribute('aria-hidden', 'false');
-      // Recarga el embed al llegar a la celebración para solicitar autoplay.
-      if (spotifyFrame) {
-        const spotifyUrl = new URL(spotifyFrame.src);
-        spotifyUrl.searchParams.set('autoplay', '1');
-        spotifyFrame.src = spotifyUrl.toString();
-      }
-      celebration.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 500);
+  function unlockResult() {
+    nextStep.hidden = false;
+    nextStep.classList.add('is-ready');
+    nextStepButton.focus({ preventScroll: true });
   }
 }
 
-loadMessages();
+nextStepButton.addEventListener('click', () => {
+  nextStep.classList.add('is-opening');
+  nextStepButton.disabled = true;
+  setTimeout(() => {
+    celebration.setAttribute('aria-hidden', 'false');
+    celebration.classList.add('is-visible');
+    if (spotifyFrame) {
+      const spotifyUrl = new URL(spotifyFrame.dataset.src);
+      spotifyUrl.searchParams.set('autoplay', '1');
+      spotifyFrame.src = spotifyUrl.toString();
+    }
+    celebration.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 650);
+});
 
-// Crea un rastro de corazones al mover el puntero o deslizar el dedo.
+loadDiscoveries();
+
+const heartRain = document.querySelector('#heart-rain');
+const rainHeartCount = 16;
+
+for (let index = 0; index < rainHeartCount; index += 1) {
+  const heart = document.createElement('span');
+  heart.className = 'heart-rain-heart';
+  heart.textContent = index % 4 === 0 ? '♡' : '♥';
+  heart.style.left = `${Math.random() * 100}%`;
+  heart.style.setProperty('--size', `${10 + Math.random() * 10}px`);
+  heart.style.setProperty('--duration', `${12 + Math.random() * 10}s`);
+  heart.style.setProperty('--delay', `${Math.random() * -18}s`);
+  heart.style.setProperty('--drift', `${Math.round(Math.random() * 100 - 50)}px`);
+  heartRain.append(heart);
+}
+
+// El rastro queda reservado para puntero de escritorio para no interferir con el scroll táctil.
 const heartTrail = document.querySelector('#heart-trail');
 let lastHeartTime = 0;
 let pendingPoint = null;
 let animationFrame = null;
-const maxTrailHearts = 24;
+const maxTrailHearts = 18;
 
 function createTrailHeart(x, y) {
   const now = performance.now();
-  if (now - lastHeartTime < 90) return;
+  if (now - lastHeartTime < 110) return;
   lastHeartTime = now;
 
-  while (heartTrail.childElementCount >= maxTrailHearts) {
-    heartTrail.firstElementChild.remove();
-  }
+  while (heartTrail.childElementCount >= maxTrailHearts) heartTrail.firstElementChild.remove();
 
   const heart = document.createElement('span');
   heart.className = 'trail-heart';
@@ -89,7 +113,7 @@ function createTrailHeart(x, y) {
 }
 
 document.addEventListener('pointermove', (event) => {
-  if (event.pointerType !== 'mouse' && event.pointerType !== 'touch') return;
+  if (event.pointerType !== 'mouse') return;
   pendingPoint = { x: event.clientX, y: event.clientY };
   if (animationFrame) return;
 
@@ -99,7 +123,3 @@ document.addEventListener('pointermove', (event) => {
     animationFrame = null;
   });
 });
-
-// Evita que el navegador intente seleccionar o arrastrar contenido durante el gesto.
-document.addEventListener('selectstart', (event) => event.preventDefault());
-document.addEventListener('dragstart', (event) => event.preventDefault());

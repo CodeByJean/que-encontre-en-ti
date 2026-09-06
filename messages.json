@@ -1,10 +1,38 @@
 [
-  { "message": "Tu sonrisa ilumina hasta mis días más grises." },
-  { "message": "Contigo, cualquier lugar se siente como hogar." },
-  { "message": "Admiro la forma tan bonita en la que ves el mundo." },
-  { "message": "Tus abrazos son mi lugar favorito." },
-  { "message": "Me haces reír incluso cuando no tengo ganas." },
-  { "message": "A tu lado, cada pequeño momento se vuelve especial." },
-  { "message": "Gracias por quererme tal y como soy." },
-  { "message": "Elegirte cada día es mi parte favorita de la vida." }
+  {
+    "type": "hallazgo 01 / origen",
+    "title": "Una coincidencia que decidí perseguir",
+    "message": "Nos encontramos en una aplicación de citas y la química apareció muy rápido, incluso a través de una pantalla. Después de aquel malentendido me alejé una semana, pero en el fondo sabía que todavía necesitaba conocerte. Volví. Y qué bueno que lo hice: el 7 de julio empezamos a escribir esto como nosotros.",
+    "note": "resultado: primera decisión importante"
+  },
+  {
+    "type": "hallazgo 02 / primera impresión",
+    "title": "Tus ojos dicen más de lo que imaginas",
+    "message": "Hay dos cosas que siempre noto de ti. La primera son tus ojos: me encanta su forma, lo expresivos que son y todo lo que alcanzan a transmitir sin decir una palabra. La segunda es tu olor, tan suave y delicado que se me queda en la memoria.",
+    "note": "resultado: atención capturada"
+  },
+  {
+    "type": "hallazgo 03 / santuario",
+    "title": "Un beso que siempre había estado esperando",
+    "message": "En nuestra primera salida, en el Santuario Nacional de Schoenstatt —Cenáculo de Bellavista—, conversamos durante horas. Mientras me hablabas de tu pasado, yo solo podía pensar en las ganas que tenía de besarte y en que todavía no era el momento. Hasta que salíamos y ya no pude resistirme. Se sintió fuera de toda lógica, como si ese primer beso siempre hubiera pertenecido ahí.",
+    "note": "resultado: sincronía detectada"
+  },
+  {
+    "type": "hallazgo 04 / intimidad",
+    "title": "Volver a sentirme vivo",
+    "message": "Llegué con nervios, dudas y miedo de no cumplir con tus expectativas. Pero cuando estuvimos solos, todo eso desapareció. Contigo encontré ritmo, confianza, pasión y una sincronía difícil de explicar: como si fuéramos dos piezas de un mismo todo. En la intimidad de esa noche, nuestros cuerpos parecieron reconocerse; para mí, fue mucho más que un momento: fue una forma de renacer.",
+    "note": "resultado: vida restaurada"
+  },
+  {
+    "type": "hallazgo 05 / presente",
+    "title": "La persona que también sabe descansar",
+    "message": "Admiro la atención con la que miras todo y lo pendiente que estás de cada detalle. Pero hay algo que me conmueve todavía más: que conmigo puedas bajar la guardia, descansar y sentirte cómoda. Me gusta ser un lugar donde no tienes que estar pendiente de todo.",
+    "note": "resultado: confianza compartida"
+  },
+  {
+    "type": "hallazgo 06 / fe y futuro",
+    "title": "Una luz que también me acercó a Dios",
+    "message": "Antes de ti sentía que mi vida se estaba hundiendo emocionalmente. Llegaste como una luz, como un regalo que Dios puso en mi camino. Yo no solía creer, pero contigo he empezado a mirar la fe de otra manera: acompañarte a misa también se ha convertido en una forma de acercarme a ti y de aprender. No quiero cerrar esta exploración después de dos meses; quiero seguir creciendo contigo.",
+    "note": "resultado: proyecto guiado por la luz"
+  }
 ]
