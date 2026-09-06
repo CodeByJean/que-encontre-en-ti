@@ -6,6 +6,45 @@ const celebration = document.querySelector('#celebration');
 const spotifyFrame = document.querySelector('.spotify-player iframe');
 const nextStep = document.querySelector('#next-step');
 const nextStepButton = document.querySelector('#next-step-button');
+const loadingOverlay = document.querySelector('#loading-overlay');
+const loadingMessage = document.querySelector('#loading-message');
+const loadingDetail = document.querySelector('#loading-detail');
+const loadingBar = document.querySelector('#loading-bar');
+const loadingStartedAt = performance.now();
+let loadingFinished = false;
+
+const loadingStages = [
+  ['Cargando assets de amor...', 'reuniendo colores, fotos y un poco de magia'],
+  ['Recopilando información sobre Guisselle...', 'analizando ojos, detalles y esa forma de mirar'],
+  ['Recopilando momentos...', 'reconstruyendo el Santuario y aquel primer beso'],
+  ['Sincronizando corazones...', 'calibrando ritmo, confianza y sincronía'],
+  ['Preparando la exploración...', 'todo listo para descubrir lo que encontré en ti']
+];
+let loadingStage = 0;
+const loadingTimer = setInterval(() => {
+  if (loadingStage >= loadingStages.length - 1) return;
+  loadingStage += 1;
+  loadingMessage.textContent = loadingStages[loadingStage][0];
+  loadingDetail.textContent = loadingStages[loadingStage][1];
+  loadingMessage.classList.remove('is-changing');
+  loadingDetail.classList.remove('is-changing');
+  void loadingMessage.offsetWidth;
+  loadingMessage.classList.add('is-changing');
+  loadingDetail.classList.add('is-changing');
+  loadingBar.style.width = `${18 + loadingStage * 18}%`;
+}, 760);
+
+function finishLoading() {
+  if (loadingFinished) return;
+  loadingFinished = true;
+  const remainingTime = Math.max(0, 3600 - (performance.now() - loadingStartedAt));
+  setTimeout(() => {
+    clearInterval(loadingTimer);
+    loadingBar.style.width = '100%';
+    loadingOverlay.classList.add('is-hidden');
+    document.body.classList.remove('is-loading');
+  }, remainingTime + 450);
+}
 
 async function loadDiscoveries() {
   try {
@@ -14,9 +53,11 @@ async function loadDiscoveries() {
     const discoveries = await response.json();
     if (!Array.isArray(discoveries) || discoveries.length === 0) throw new Error('No hay descubrimientos registrados.');
     renderDiscoveries(discoveries);
+    finishLoading();
   } catch (error) {
     cardsContainer.innerHTML = '<p class="record-message">La exploración no pudo iniciarse. Intenta abrir el proyecto desde un servidor local.</p>';
     console.error(error);
+    finishLoading();
   }
 }
 
@@ -24,6 +65,11 @@ function renderDiscoveries(discoveries) {
   let opened = 0;
   const total = discoveries.length;
   progressText.textContent = `0 / ${total}`;
+
+  function updateProgress() {
+    progressText.textContent = `${opened} / ${total}`;
+    progressBar.style.width = `${(opened / total) * 100}%`;
+  }
 
   discoveries.forEach((discovery, index) => {
     const card = template.content.cloneNode(true).querySelector('.record-card');
@@ -36,13 +82,26 @@ function renderDiscoveries(discoveries) {
     trigger.setAttribute('aria-label', `Abrir ${discovery.title}`);
 
     trigger.addEventListener('click', () => {
-      if (card.classList.contains('is-open')) return;
+      if (card.classList.contains('is-open')) {
+        card.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.setAttribute('aria-label', `Abrir ${discovery.title}`);
+        opened -= 1;
+        updateProgress();
+
+        if (!celebration.classList.contains('is-visible')) {
+          nextStep.hidden = true;
+          nextStep.classList.remove('is-ready');
+          nextStepButton.disabled = false;
+        }
+        return;
+      }
+
       card.classList.add('is-open');
       trigger.setAttribute('aria-expanded', 'true');
-      trigger.setAttribute('aria-label', `Cerrado: ${discovery.title}`);
+      trigger.setAttribute('aria-label', `Cerrar ${discovery.title}`);
       opened += 1;
-      progressText.textContent = `${opened} / ${total}`;
-      progressBar.style.width = `${(opened / total) * 100}%`;
+      updateProgress();
 
       if (opened === total) unlockResult();
     });

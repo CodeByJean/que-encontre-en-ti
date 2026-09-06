@@ -26,7 +26,17 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body class="is-loading">
+    <div id="loading-overlay" class="loading-overlay" role="status" aria-live="polite">
+      <div class="loading-card">
+        <div class="loading-topline"><span>/mi-mundo</span><span>booting v2.0</span></div>
+        <div class="loading-heart" aria-hidden="true">♥</div>
+        <p class="loading-label">inicializando proyecto</p>
+        <h2 id="loading-message">Preparando una pequeña sorpresa...</h2>
+        <div class="loading-progress" aria-hidden="true"><span id="loading-bar"></span></div>
+        <p class="loading-detail" id="loading-detail">abriendo expediente: nosotros</p>
+      </div>
+    </div>
     <div class="noise" aria-hidden="true"></div>
     <div id="heart-rain" aria-hidden="true"></div>
     <div id="heart-trail" aria-hidden="true"></div>
